@@ -44,8 +44,23 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    # commands
     if startsWith(message.content, "!"):
-        if removeFirstChar(message.content) == "ping":
+        command = removeFirstChar(message.content)
+        if command == "ping":
             await message.channel.send("Pong!")
+        elif command == "whatIsInNsfw":
+            await message.channel.send("Po$$, nu$$$$, and h$$$ai")
+        elif command == "cpp":
+            await message.channel.send("**Rust**")
+        elif command == "rust":
+            await message.channel.send("https://rustrecoveryfoundation.neocities.org/")
+        elif command == "python":
+            await message.channel.send("loading...")
+        elif command == "":
+            await message.channel.send("")
+        else:
+            await message.channel.send(f"ERROR: unknown command: `{command}`")
+
 
 client.run(TOKEN)
