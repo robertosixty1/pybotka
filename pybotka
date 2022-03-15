@@ -1,18 +1,51 @@
 #!/bin/env python3
 
-# bot.py
-import os
-
 import discord
 from dotenv import load_dotenv
+from os.path import isfile
+from os import getenv
+from sys import stderr
+
+def eprint(*args, **kwargs):
+    print(*args, file=stderr, **kwargs)
+
+def startsWith(string, char):
+    if string[0] == char:
+        return True
+    return False
+
+def removeFirstChar(string):
+    return string[1:]
+
+if not isfile("./.env"):
+    eprint("ERROR: could not find file `.env`")
+    exit(1)
 
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN = getenv("DISCORD_TOKEN")
+GUILD = getenv("DISCORD_GUILD")
 
 client = discord.Client()
 
 @client.event
 async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    guild = discord.utils.get(client.guilds, name=GUILD)
+
+    print(
+        f'{client.user} is connected to the following guild:\n'
+        f'{guild.name}(id: {guild.id})'
+    )
+
+    members = '\n - '.join([member.name for member in guild.members])
+    print(f'Guild Members (online):\n - {members}')
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if startsWith(message.content, "!"):
+        if removeFirstChar(message.content) == "ping":
+            await message.channel.send("Pong!")
 
 client.run(TOKEN)
