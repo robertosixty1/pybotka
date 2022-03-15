@@ -27,17 +27,64 @@ GUILD = getenv("DISCORD_GUILD")
 
 client = discord.Client()
 
+helpp = """Avaiable commands:
+    !ping - !help - !whatIsInNsfw -
+    !cpp - !rust - !python - !anime - 
+    !riir - !whoami - !killme - !install - !about
+"""
+
+about = """
+:red_circle: **CHATS**:
+
+#sobre - aqui
+
+#link-para-convite - link para compartilhar o servidor
+
+:speaker: Mr Strimmer - transmissões de quem possui o cargo @MrStrimmer 
+
+#annoycements - avisos de @ele
+
+#regras - 3RROR
+
+#geral - qualquer coisa
+
+#memes - chat para compartilhar memes
+
+#jogos - chat para compartilhar screenshots, gameplays, e convites sobre jogos
+
+#anime - para conversar sobre anime
+
+<#948969927941980201> - desenhos estranhos estilo anime
+
+#arte - chat para compartilhar desenhos, música (de autoria própria), e vídeos artísticos
+
+#musica - chat para compartilhar músicas que você gosta
+
+#compartilhar - chat para compartilhar links com outras pessoas
+
+#programacao - chat para compartilhar e obter ajuda com programação (sem malwares ok)
+
+:speaker: Geral - canal para conversar sobre o que quiser através de voz
+
+:speaker: Baderna - canal sem regras, faça o que quiser
+
+#1, #2, #3, #4 - chat para conversar sobre trabalhos de escola
+
+:speaker: voz - canal de voz para trabalhos de escola
+
+#english - chat to talk in english
+
+#divulgação - divulgar vídeos ou lives de @youtuber/streamer
+
+#sus - A̴̾͐M̶̜̿Ö̶́͛G̸͋͐U̶̓͐Ś̴͛ 
+
+#nsfw - NO
+"""
+
 @client.event
 async def on_ready():
     guild = discord.utils.get(client.guilds, name=GUILD)
-
-    print(
-        f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'
-    )
-
-    members = '\n - '.join([member.name for member in guild.members])
-    print(f'Guild Members (online):\n - {members}')
+    print(f"{client.user} is online!")
 
 @client.event
 async def on_message(message):
@@ -46,9 +93,13 @@ async def on_message(message):
 
     # commands
     if startsWith(message.content, "!"):
-        command = removeFirstChar(message.content)
+        args = message.content.split()
+        command = removeFirstChar(args[0])
+        
         if command == "ping":
             await message.channel.send("Pong!")
+        elif command == "help":
+            await message.channel.send(helpp)
         elif command == "whatIsInNsfw":
             await message.channel.send("Po$$, nu$$$$, and h$$$ai")
         elif command == "cpp":
@@ -57,8 +108,24 @@ async def on_message(message):
             await message.channel.send("https://rustrecoveryfoundation.neocities.org/")
         elif command == "python":
             await message.channel.send("loading...")
-        elif command == "":
-            await message.channel.send("")
+        elif command == "anime":
+            await message.channel.send("H$$$ai is only for +18")
+        elif command == "whoami":
+            await message.channel.send(f"Of course you are {message.author}")
+        elif command == "killme":
+            await message.channel.send(f"{message.author} was killed by {client.user}")
+        elif command == "install":
+            try:
+                await message.channel.send(f"{args[1]} was installed successfully")
+            except IndexError:
+                await message.channel.send(f"ERROR: argument not provided for `!install`")
+        elif command == "about":
+            await message.channel.send(about)
+        elif command == "riir":
+            try:
+                await message.channel.send(f"Have you considered rewriting {args[1]} in rust?")
+            except IndexError:
+                await message.channel.send(f"ERROR: argument not provided for `!riir`")
         else:
             await message.channel.send(f"ERROR: unknown command: `{command}`")
 
