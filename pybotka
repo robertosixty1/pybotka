@@ -25,7 +25,7 @@ def startsWith2Char(string, char):
 def ltoString(listt):
     string = " "
     for i in listt:
-        string += i
+        string += " " + i
     return string
 
 def removeFirstChar(string):
@@ -40,6 +40,8 @@ TOKEN = getenv("DISCORD_TOKEN")
 GUILD = getenv("DISCORD_GUILD")
 
 client = discord.Client()
+
+adm = "<@948968646594658334>"
 
 helpp = """Avaiable commands:
     !ping - !help - !whatIsInNsfw -
@@ -160,7 +162,7 @@ async def on_message(message):
                     await message.guild.ban(user_banned)
                     await message.channel.send(f"{user_banned.name} was banned")
                 else:
-                    await message.channel.send(f"Only <@948968646594658334> XD")
+                    await message.channel.send(f"Only {adm} XD")
             except Exception as ex:
                 await message.channel.send(f"ERROR: {ex}")
         else:
