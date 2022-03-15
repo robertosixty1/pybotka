@@ -14,6 +14,20 @@ def startsWith(string, char):
         return True
     return False
 
+def startsWith2Char(string, char):
+    try:
+        if string[0] == char[0] and string[1] == char[1]:
+            return True
+    except IndexError:
+        pass
+    return False
+
+def ltoString(listt):
+    string = " "
+    for i in listt:
+        string += i
+    return string
+
 def removeFirstChar(string):
     return string[1:]
 
@@ -31,6 +45,7 @@ helpp = """Avaiable commands:
     !ping - !help - !whatIsInNsfw -
     !cpp - !rust - !python - !anime - 
     !riir - !whoami - !killme - !install - !about
+    !chelp - !ban
 """
 
 about = """
@@ -90,7 +105,7 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-
+    
     # commands
     if startsWith(message.content, "!"):
         args = message.content.split()
@@ -126,6 +141,28 @@ async def on_message(message):
                 await message.channel.send(f"Have you considered rewriting {args[1]} in rust?")
             except IndexError:
                 await message.channel.send(f"ERROR: argument not provided for `!riir`")
+        elif command == "chelp":
+            try:
+                await message.channel.send(f"<@948968646594658334>: {ltoString(args[1:])}")
+            except IndexError:
+                await message.channel.send(f"ERROR: argument not provided for `!chelp`")
+        elif command == "ban":
+            try:
+                if message.author.id == 948968646594658334:
+                    user_banned_id = ""
+                    if startsWith2Char(args[1], "<@"):
+                        for c in args[1]:
+                            if c == ">":
+                                break
+                            elif c not in "<@":
+                                user_banned_id += c
+                    user_banned = await client.fetch_user(int(user_banned_id))
+                    await message.guild.ban(user_banned)
+                    await message.channel.send(f"{user_banned.name} was banned")
+                else:
+                    await message.channel.send(f"Only <@948968646594658334> XD")
+            except Exception as ex:
+                await message.channel.send(f"ERROR: {ex}")
         else:
             await message.channel.send(f"ERROR: unknown command: `{command}`")
 
