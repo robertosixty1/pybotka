@@ -7,5 +7,5 @@ An simple bot for my discord server.
 ```console
 $ echo "# .env\nDISCORD_TOKEN=\"your server token\"\nDISCORD_GUILD=\"your server name\"" > .env
 $ source ./bin/activate
-$ ./pybotka
+$ ./bin/python3 ./pybotka
 ```
