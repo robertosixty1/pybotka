@@ -1,2 +1,7 @@
-language = "python3"
-run = "python3 ./pybotka.py"
+run = ["python", "pybotka.py"]
+
+# The default file opened in the editor.
+entrypoint = "pybotka.py"
+
+[packager]
+language = "python"
