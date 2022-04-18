@@ -2,7 +2,6 @@
 
 import discord
 from dotenv import load_dotenv
-from os.path import isfile
 from os import getenv
 from sys import stderr
 

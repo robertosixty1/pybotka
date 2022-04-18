@@ -1,7 +1,3 @@
-run = ["python", "pybotka.py"]
-
-# The default file opened in the editor.
-entrypoint = "pybotka.py"
-
-[packager]
-language = "python"
+run="python pybotka.py"
+language="python3"
+onBoot="echo Booting up!"
