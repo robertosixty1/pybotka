@@ -6,6 +6,6 @@ An simple bot for my discord server.
 
 ```console
 $ echo "# .env\nDISCORD_TOKEN=\"your server token\"\nDISCORD_GUILD=\"your server name\"" > .env
-$ source ./bin/activate
-$ ./bin/python3 ./pybotka
+$ pip install -r requirements.txt
+$ ./pybotka
 ```
