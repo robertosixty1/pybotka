@@ -31,10 +31,6 @@ def ltoString(listt):
 def removeFirstChar(string):
     return string[1:]
 
-if not isfile("./.env"):
-    eprint("ERROR: could not find file `.env`")
-    exit(1)
-
 load_dotenv()
 TOKEN = getenv("DISCORD_TOKEN")
 GUILD = getenv("DISCORD_GUILD")
