@@ -31,6 +31,22 @@ def ltoString(listt):
 def removeFirstChar(string):
     return string[1:]
 
+##### BEGIN CMDS #####
+
+class Command():
+    cmd: str
+    message: str
+    def __init__(self, cmd, message):
+        self.cmd     = cmd
+        self.message = message
+
+default = Command(cmd="", message="")
+added_commands = [default]
+
+######################
+
+##### BEGIN BOT #####
+
 load_dotenv()
 TOKEN = getenv("DISCORD_TOKEN")
 GUILD = getenv("DISCORD_GUILD")
@@ -41,9 +57,9 @@ adm = "<@948968646594658334>"
 
 helpp = """Avaiable commands:
     !ping - !help - !whatIsInNsfw -
-    !cpp - !rust - !python - !anime - 
+    !cpp - !rust - !python - !anime -
     !riir - !whoami - !killme - !install - !about
-    !chelp - !ban
+    !chelp - !ban - !addcmd
 """
 
 about = """
@@ -53,7 +69,7 @@ about = """
 
 #link-para-convite - link para compartilhar o servidor
 
-:speaker: Mr Strimmer - transmissões de quem possui o cargo @MrStrimmer 
+:speaker: Mr Strimmer - transmissões de quem possui o cargo @MrStrimmer
 
 #annoycements - avisos de @ele
 
@@ -66,8 +82,6 @@ about = """
 #jogos - chat para compartilhar screenshots, gameplays, e convites sobre jogos
 
 #anime - para conversar sobre anime
-
-<#948969927941980201> - desenhos estranhos estilo anime
 
 #arte - chat para compartilhar desenhos, música (de autoria própria), e vídeos artísticos
 
@@ -89,7 +103,7 @@ about = """
 
 #divulgação - divulgar vídeos ou lives de @youtuber/streamer
 
-#sus - A̴̾͐M̶̜̿Ö̶́͛G̸͋͐U̶̓͐Ś̴͛ 
+#sus - A̴̾͐M̶̜̿Ö̶́͛G̸͋͐U̶̓͐Ś̴͛
 
 #nsfw - NO
 """
@@ -103,12 +117,12 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-    
+
     # commands
     if startsWith(message.content, "!"):
         args = message.content.split()
         command = removeFirstChar(args[0])
-        
+
         if command == "ping":
             await message.channel.send("Pong!")
         elif command == "help":
@@ -131,19 +145,19 @@ async def on_message(message):
             try:
                 await message.channel.send(f"{args[1]} was installed successfully")
             except IndexError:
-                await message.channel.send(f"ERROR: argument not provided for `!install`")
+                await message.channel.send(f"ERROR: Argument not provided for `!install`")
         elif command == "about":
             await message.channel.send(about)
         elif command == "riir":
             try:
                 await message.channel.send(f"Have you considered rewriting {args[1]} in rust?")
             except IndexError:
-                await message.channel.send(f"ERROR: argument not provided for `!riir`")
+                await message.channel.send(f"ERROR: Argument not provided for `!riir`")
         elif command == "chelp":
             try:
                 await message.channel.send(f"<@948968646594658334>: {ltoString(args[1:])}")
             except IndexError:
-                await message.channel.send(f"ERROR: argument not provided for `!chelp`")
+                await message.channel.send(f"ERROR: Argument not provided for `!chelp`")
         elif command == "ban":
             try:
                 if message.author.id == 948968646594658334:
@@ -161,8 +175,29 @@ async def on_message(message):
                     await message.channel.send(f"Only {adm} XD")
             except Exception as ex:
                 await message.channel.send(f"ERROR: {ex}")
+        elif command == "addcmd":
+            try:
+                if message.author.id == 948968646594658334:
+                    addcmd = Command(cmd=args[1],message=args[2])
+                    added_commands.append(addcmd)
+                    await message.channel.send(f"Added command {args[1]}")
+                else:
+                    await message.channel.send(f"Only {adm} XD")
+            except IndexError:
+                await message.channel.send(f"ERROR: Argument not provided for `addcmd`")
         else:
-            await message.channel.send(f"ERROR: unknown command: `{command}`")
+            error = False
+            for cmd in added_commands:
+                if command == cmd.cmd:
+                    await message.channel.send(cmd.message)
+                    error = False
+                    break
+                else:
+                    error = True
+            if error:
+                await message.channel.send(f"ERROR: Unknown command: `{command}`")
 
 
 client.run(TOKEN)
+
+#####################
