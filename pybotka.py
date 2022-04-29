@@ -1,6 +1,7 @@
 #!/bin/env python3
 
 import discord
+import os
 from dotenv import load_dotenv
 from os import getenv
 from sys import stderr
@@ -42,6 +43,23 @@ class Command():
 default = Command(cmd="", message="")
 added_commands = [default]
 
+cmd_list = [
+    "!ping",
+    "!help",
+    "!whatIsInNsfw",
+    "!cpp",
+    "!rust",
+    "!python",
+    "!anime",
+    "!riir",
+    "!whoami",
+    "!killme",
+    "!about",
+    "!chelp",
+    "!ban",
+    "!addcmd"
+]
+
 ######################
 
 ##### BEGIN BOT #####
@@ -53,13 +71,6 @@ GUILD = getenv("DISCORD_GUILD")
 client = discord.Client()
 
 adm = "<@948968646594658334>"
-
-helpp = """Avaiable commands:
-    !ping - !help - !whatIsInNsfw -
-    !cpp - !rust - !python - !anime -
-    !riir - !whoami - !killme - !install - !about
-    !chelp - !ban - !addcmd
-"""
 
 about = """
 :red_circle: **CHATS**:
@@ -125,6 +136,9 @@ async def on_message(message):
         if command == "ping":
             await message.channel.send("Pong!")
         elif command == "help":
+            helpp = ""
+            for h in cmd_list:
+                helpp += " " + h
             await message.channel.send(helpp)
         elif command == "whatIsInNsfw":
             await message.channel.send("Po$$, nu$$$$, and h$$$ai")
@@ -177,8 +191,9 @@ async def on_message(message):
         elif command == "addcmd":
             try:
                 if message.author.id == 948968646594658334:
-                    addcmd = Command(cmd=args[1],message=args[2])
+                    addcmd = Command(cmd=args[1],message=ltoString(args[2:]))
                     added_commands.append(addcmd)
+                    cmd_list.append("!" + args[1])
                     await message.channel.send(f"Added command {args[1]}")
                 else:
                     await message.channel.send(f"Only {adm} XD")
